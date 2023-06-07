@@ -10,6 +10,45 @@ class AppColor {
   static const AppDarkBtnColor =Color(0xffffffff);
 }
 
+
+class AppTheme{
+  static ThemeData darkTheme () {
+
+    return ThemeData(
+      brightness:  Brightness.dark,
+  textTheme: TextTheme(
+  displayLarge: mTextStyle43(mColor: Colors.white,mFWeight: FontWeight.w800),
+  titleSmall: mTextStyle16(mColor: Colors.white),
+  displayMedium: mTextStyle34(mColor: Colors.white,mFWeight: FontWeight.w600),
+  displaySmall: mTextStyle18(mColor: Colors.white,mFWeight: FontWeight.w300)
+  ),
+  scaffoldBackgroundColor: Colors.black
+  );
+}
+  static ThemeData lightTheme (){
+
+    return ThemeData(
+      scaffoldBackgroundColor: Colors.white,
+        brightness: Brightness.light,
+      textTheme: TextTheme(
+          displayLarge: mTextStyle43(mColor: Colors.black,mFWeight: FontWeight.w800),
+          displayMedium: mTextStyle34(mColor: Colors.black,mFWeight: FontWeight.w600),
+          displaySmall: mTextStyle18(mColor: Colors.black,mFWeight: FontWeight.w300),
+        titleSmall: mTextStyle16(mColor: Colors.black),
+      ),
+    );
+}
+}
+
+
+
+
+
+
+
+
+
+
 Widget mWidthSpacer ({
    double mWidth = 10,
 }){
@@ -25,7 +64,7 @@ Widget mHeightSpacer ({
 InputDecoration mInputDec({
  required String mhint ,
  required String mlable,
-  Color mColor = const Color(0x8B838282),
+  Color mColor = const Color(0xFFD7D1D1),
   IconData? mPrefixIcon,
   IconData? mSuffixIcon,
 }){
@@ -128,6 +167,17 @@ TextStyle mTextStyle24({
       fontFamily: ' Poppins',
       color: mColor,
       fontSize: 24,
+      fontWeight: mFWeight
+  );
+}
+TextStyle mTextStyle16({
+  FontWeight  mFWeight = FontWeight.normal,
+  Color mColor = AppColor.TxtColor
+}){
+  return TextStyle(
+      fontFamily: ' Poppins',
+      color: mColor,
+      fontSize: 16,
       fontWeight: mFWeight
   );
 }
