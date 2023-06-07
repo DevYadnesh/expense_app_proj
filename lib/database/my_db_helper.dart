@@ -98,4 +98,18 @@ class My_Db_Helper {
   return check>0;
   }
 
+
+  Future<List<Expense_Type_Model>> getExpenseCat()async {
+    var mDb = await openDB();
+    List<Map<String, dynamic>> expenseCat = await mDb.query(
+        TABLE_EXPENSE_CATEGORY);
+
+    List<Expense_Type_Model> listExpenseCatModel = [];
+
+    for (Map<String, dynamic> expense_cat in expenseCat) {
+      listExpenseCatModel.add(Expense_Type_Model.fromMap(expense_cat));
+    }
+    return listExpenseCatModel;
+  }
+
 }
