@@ -15,8 +15,8 @@ Future<List<Expense_Model>> getExpense()async{
  return data;
 }
 
-Future<List<Expense_Type_Model>> getExpenseCat()async{
- var catdata = await mdbHelper.getExpenseCat();
+Future<List<Category_Model>> getExpenseCat()async{
+ var catdata = await mdbHelper.getExpenseCategory();
  return catdata;
 }
 }

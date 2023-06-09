@@ -1,31 +1,34 @@
 import 'package:expense_proj/database/my_db_helper.dart';
 
 class User_Model {
-  int? id;
-  String? email;
-  String? pass;
-  String? mobno;
-  String? img;
+  int? user_id;
+  String? user_name;
+  String? user_email;
+  String? user_pass;
+  String? user_mobno;
+  String? user_img;
 
-  User_Model({this.id,this.email,this.pass,this.mobno,this.img});
+  User_Model({this.user_id,this.user_name,this.user_email,this.user_pass,this.user_mobno,this.user_img});
 
   factory User_Model.fromMap(Map<String,dynamic> map){
     return User_Model(
-      id: map[My_Db_Helper.COLUMN_USER_ID],
-      email: map[My_Db_Helper.COLUMN_USER_EMAIL],
-      pass: map[My_Db_Helper.COLUMN_USER_PASS],
-      mobno: map[My_Db_Helper.COLUMN_USER_MOBNO],
-      img: map[My_Db_Helper.COLUMN_USER_IMAGE],
+      user_id: map[My_Db_Helper.USER_ID],
+      user_name: map[My_Db_Helper.USER_NAME],
+      user_email: map[My_Db_Helper.USER_EMAIL],
+      user_pass: map[My_Db_Helper.USER_PASS],
+      user_mobno: map[My_Db_Helper.USER_MOBNO],
+      user_img: map[My_Db_Helper.USER_IMAGE],
     );
   }
 
   Map<String,dynamic> toMap(){
     return {
-      My_Db_Helper.COLUMN_USER_ID : id,
-      My_Db_Helper.COLUMN_USER_EMAIL : email,
-      My_Db_Helper.COLUMN_USER_PASS : pass,
-      My_Db_Helper.COLUMN_USER_MOBNO : mobno,
-      My_Db_Helper.COLUMN_USER_IMAGE : img,
+      My_Db_Helper.USER_ID : user_id,
+      My_Db_Helper.USER_NAME :user_name,
+      My_Db_Helper.USER_EMAIL : user_email,
+      My_Db_Helper.USER_PASS : user_pass,
+      My_Db_Helper.USER_MOBNO : user_mobno,
+      My_Db_Helper.USER_IMAGE : user_img,
     };
   }
 }

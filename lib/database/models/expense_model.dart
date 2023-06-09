@@ -1,36 +1,43 @@
 import 'package:expense_proj/database/my_db_helper.dart';
 
 class Expense_Model{
-  int? id;
-  int? type;
-  int? date;
-  String? title;
-  String? desc;
-  int? amount;
-  int? balance;
+  int? expense_id;
+  int? expense_type;
+  int? expense_cat;
+  int? expense_amount;
+  int? expense_balance;
+  String? expense_date;
+  String? expense_title;
+  String? expense_desc;
 
-  Expense_Model({this.id,this.type,this.date,this.title,this.desc,this.amount,this.balance});
+
+  Expense_Model({this.expense_id,this.expense_type,this.expense_cat,this.expense_amount,this.expense_balance,this.expense_date,this.expense_title,this.expense_desc,});
 
   factory Expense_Model.fromMap(Map<String,dynamic> map ){
     return Expense_Model(
-      id: map[My_Db_Helper.COLUMN_EXPENSE_ID],
-      type: map[My_Db_Helper.COLUMN_EXPENSE_TYPE],
-      date: map[My_Db_Helper.COLUMN_EXPENSE_DATE],
-      title: map[My_Db_Helper.COLUMN_EXPENSE_TITLE],
-      desc: map[My_Db_Helper.COLUMN_EXPENSE_DESC],
-      amount: map[My_Db_Helper.COLUMN_EXPENSE_AMOUNT],
-      balance: map[My_Db_Helper.COLUMN_EXPENSE_BALANCE],
+      expense_id: map[My_Db_Helper.EXPENSE_ID],
+      expense_type: map[My_Db_Helper.EXPENSE_TYPE],
+      expense_cat: map[My_Db_Helper.EXPENSE_CATEGORY],
+      expense_amount: map[My_Db_Helper.EXPENSE_AMOUNT],
+      expense_balance: map[My_Db_Helper.EXPENSE_BALANCE],
+      expense_date: map[My_Db_Helper.EXPENSE_DATE],
+      expense_title: map[My_Db_Helper.EXPENSE_TITLE],
+      expense_desc: map[My_Db_Helper.EXPENSE_DESC],
+
     );
   }
   Map<String,dynamic> toMap(){
     return {
-      My_Db_Helper.COLUMN_EXPENSE_ID :id,
-      My_Db_Helper.COLUMN_EXPENSE_TYPE :type,
-      My_Db_Helper.COLUMN_EXPENSE_DATE :date,
-      My_Db_Helper.COLUMN_EXPENSE_TITLE :title,
-      My_Db_Helper.COLUMN_EXPENSE_DESC :desc,
-      My_Db_Helper.COLUMN_EXPENSE_AMOUNT :amount,
-      My_Db_Helper.COLUMN_EXPENSE_BALANCE :balance,
+      My_Db_Helper.EXPENSE_ID :expense_id,
+      My_Db_Helper.EXPENSE_TYPE :expense_type,
+      My_Db_Helper.EXPENSE_CATEGORY : expense_cat,
+      My_Db_Helper.EXPENSE_AMOUNT :expense_amount,
+      My_Db_Helper.EXPENSE_BALANCE :expense_balance,
+      My_Db_Helper.EXPENSE_DATE :expense_date,
+      My_Db_Helper.EXPENSE_TITLE :expense_title,
+      My_Db_Helper.EXPENSE_DESC :expense_desc,
+
+
     };
   }
 }

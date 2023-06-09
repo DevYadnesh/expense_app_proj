@@ -18,7 +18,9 @@ class ExpenseBloc extends Bloc<ExpenseEvent, ExpenseState> {
     var check = await repo.addExpense(event.newExpense);
     if(check){
     var allExpenses =  await repo.getExpense();
-    emit(ExpenseLoadedState(listExpense: allExpenses));
+   await Future.delayed(Duration(seconds: 2),(){
+
+   }).whenComplete(() =>  emit(ExpenseLoadedState(listExpense: allExpenses)));
     }else{
       emit(ExpenseErrorState(errorMsg: 'Error while adding Expense'));
     }

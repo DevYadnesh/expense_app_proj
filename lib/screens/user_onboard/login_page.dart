@@ -91,11 +91,8 @@ class _Login_PageState extends State<Login_Page> {
   }
 
   Widget _PortraitLay(BuildContext context){
-    return LayoutBuilder(builder: (context, constraints) {
-      return constraints.maxWidth > 300 ?
-      _MainLay(context) : Container();
-
-    },);
+    return mq.size.height > 300 ?
+    _MainLay(context) : Container();
   }
 
   Widget _LandscapeLay(BuildContext context){
