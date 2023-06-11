@@ -5,6 +5,7 @@ import 'package:expense_proj/screens/home/bloc/category/cat_bloc.dart';
 import 'package:expense_proj/screens/home/bloc/expense/expense_bloc.dart';
 import 'package:expense_proj/screens/home/home_page.dart';
 import 'package:expense_proj/screens/home/repo/expense_repo.dart';
+import 'package:expense_proj/screens/user_onboard/login_page.dart';
 import 'package:expense_proj/ui_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -44,7 +45,7 @@ class MyApp extends StatelessWidget {
           darkTheme: AppTheme.darkTheme(),
           theme: AppTheme.lightTheme(),
           themeMode: provider.getThemeMode() ? ThemeMode.dark : ThemeMode.light,
-          home: Home_Page(),
+          home: Login_Page(),
         );
       },
     );

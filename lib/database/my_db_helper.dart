@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:expense_proj/database/models/expense_cat_model.dart';
 import 'package:expense_proj/database/models/expense_model.dart';
 import 'package:path_provider/path_provider.dart';
@@ -25,10 +23,10 @@ class My_Db_Helper {
 
   static const TABLE_USER = 'user_table';
   static const USER_ID = 'u_id';
-  static const USER_NAME = 'u_name';
+  static const USER_FNAME = 'u_fname';
+  static const USER_LNAME = 'u_lname';
   static const USER_EMAIL = 'u_email';
   static const USER_PASS = 'u_pass';
-  static const USER_MOBNO = 'u_mobno';
   static const USER_IMAGE = 'u_img';
 
   /////////////// Expense type db ////////////////
@@ -52,16 +50,17 @@ class My_Db_Helper {
             ' $EXPENSE_TITLE text, $EXPENSE_DESC text,'
             ' $EXPENSE_AMOUNT integer, $EXPENSE_BALANCE integer,'
             ' $EXPENSE_TYPE integer, $USER_ID integer,$EXPENSE_DATE text,$EXPENSE_CATEGORY integer)');
-
-        db.execute('create table $TABLE_USER ('
-            '$USER_ID integer primary key autoincrement, $USER_EMAIL text,'
-            '$USER_PASS text, $USER_MOBNO integer, $USER_IMAGE text,$USER_NAME text)');
-
         db.execute(
-            'create table $TABLE_EXPENSE_CATEGORY  ('
-                '$CATEGORY_ID integer primary key autoincrement,'
-                '$CATEGORY_TITLE text,'
-                '$CATEGORY_IMG text)');
+            ' create table $TABLE_USER  ('
+                '$USER_ID integer primary key autoincrement,'
+                '$USER_FNAME text, $USER_LNAME text,'
+                '$USER_EMAIL text, $USER_PASS text, '
+                '$USER_IMAGE text)');
+
+        db.execute('create table $TABLE_EXPENSE_CATEGORY  ('
+            '$CATEGORY_ID integer primary key autoincrement,'
+            '$CATEGORY_TITLE text,'
+            '$CATEGORY_IMG text)');
 
         db.insert(
             TABLE_EXPENSE_CATEGORY,
@@ -70,8 +69,7 @@ class My_Db_Helper {
                 .toMap());
         db.insert(
             TABLE_EXPENSE_CATEGORY,
-            Category_Model(
-                    title: 'Rent', path: 'assets/expense_icons/rent.png')
+            Category_Model(title: 'Rent', path: 'assets/expense_icons/rent.png')
                 .toMap());
         db.insert(
             TABLE_EXPENSE_CATEGORY,
@@ -86,38 +84,42 @@ class My_Db_Helper {
         db.insert(
             TABLE_EXPENSE_CATEGORY,
             Category_Model(
-                    title: 'Mechanic', path: 'assets/expense_icons/mechanic.png')
+                    title: 'Mechanic',
+                    path: 'assets/expense_icons/mechanic.png')
                 .toMap());
         db.insert(
             TABLE_EXPENSE_CATEGORY,
             Category_Model(
-                    title: 'Recharge/Bill', path: 'assets/expense_icons/recharge.png')
+                    title: 'Recharge/Bill',
+                    path: 'assets/expense_icons/recharge.png')
                 .toMap());
         db.insert(
             TABLE_EXPENSE_CATEGORY,
             Category_Model(
-                title: 'Books', path: 'assets/expense_icons/book.png')
+                    title: 'Books', path: 'assets/expense_icons/book.png')
                 .toMap());
         db.insert(
             TABLE_EXPENSE_CATEGORY,
             Category_Model(
-                title: 'Health', path: 'assets/expense_icons/healthcare.png')
+                    title: 'Health',
+                    path: 'assets/expense_icons/healthcare.png')
                 .toMap());
         db.insert(
             TABLE_EXPENSE_CATEGORY,
             Category_Model(
-                title: 'Mess/Food', path: 'assets/expense_icons/lunch-time.png')
+                    title: 'Mess/Food',
+                    path: 'assets/expense_icons/lunch-time.png')
                 .toMap());
         db.insert(
             TABLE_EXPENSE_CATEGORY,
-            Category_Model(
-                title: 'Loan', path: 'assets/expense_icons/loan.png')
+            Category_Model(title: 'Loan', path: 'assets/expense_icons/loan.png')
                 .toMap());
-       
+
         db.insert(
             TABLE_EXPENSE_CATEGORY,
             Category_Model(
-                title: 'Shopping', path: 'assets/expense_icons/shopping-bag.png')
+                    title: 'Shopping',
+                    path: 'assets/expense_icons/shopping-bag.png')
                 .toMap());
       },
     );
@@ -149,17 +151,15 @@ class My_Db_Helper {
     return check > 0;
   }
 
-
 ///////////////////// EXPENSE CATEGORY DATA FETCHING ///////////////////
   Future<List<Category_Model>> getExpenseCategory() async {
     var mDb = await openDB();
     var catData = await mDb.query(TABLE_EXPENSE_CATEGORY);
-    List<Category_Model> listCatModel =[];
-    for(Map<String,dynamic>cat in catData){
+    List<Category_Model> listCatModel = [];
+    for (Map<String, dynamic> cat in catData) {
       listCatModel.add(Category_Model.fromMap(cat));
     }
     return listCatModel;
-      
   }
 
   //////////////////////////////// LOGIN/SIGNUP ////////////////////////////////////
@@ -167,7 +167,7 @@ class My_Db_Helper {
   Future<int> SignUp(User_Model user) async {
     var mDb = await openDB();
     int check;
-    if (!await checkIfEmailAlreadyExist(user.user_email!)) {
+    if (!await CheckIfEmailAlreadyExist(user.user_email!)) {
       check = await mDb.insert(TABLE_USER, user.toMap());
     } else {
       check = -1;
@@ -175,21 +175,19 @@ class My_Db_Helper {
     return check;
   }
 
-  Future<bool> checkIfEmailAlreadyExist(String email) async {
+  Future<bool> CheckIfEmailAlreadyExist(String email) async {
     var mDb = await openDB();
-    List<Map<String, dynamic>> data = await mDb
-        .query(TABLE_USER, where: '$USER_EMAIL= ?', whereArgs: [email]);
+    List<Map<String, dynamic>> data = await mDb.query(TABLE_USER, where: '$USER_EMAIL = ?', whereArgs: [email]);
     return data.isNotEmpty;
   }
 
-  Future<bool> SignIn(String email, String pass) async {
+  Future<bool> LogIn(String email, String pass) async {
     var mDb = await openDB();
     List<Map<String, dynamic>> data = await mDb.query(TABLE_USER,
-        where: '$USER_EMAIL = ? and $USER_PASS = ?',
-        whereArgs: [email, pass]);
-    if (data.isNotEmpty) {
+        where: '$USER_EMAIL = ? and $USER_PASS = ?', whereArgs: [email, pass]);
+    if(data.isNotEmpty){
       var sp = await SharedPreferences.getInstance();
-      sp.setInt('user_id', data[0][USER_ID]);
+      sp.setInt('u_id', data[0][USER_ID]);
     }
     return data.isNotEmpty;
   }

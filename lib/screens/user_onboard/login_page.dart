@@ -9,6 +9,7 @@ import 'package:expense_proj/ui_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../database/my_db_helper.dart';
 import '../home/home_page.dart';
 
 class Login_Page extends StatefulWidget {
@@ -23,7 +24,7 @@ class _Login_PageState extends State<Login_Page> {
 
   late MediaQueryData mq;
 
-  bool check = false;
+  var formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -37,55 +38,76 @@ class _Login_PageState extends State<Login_Page> {
 
     return Padding(
       padding:  EdgeInsets.symmetric(horizontal: mq.size.width*0.02),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
+      child: Form(
+        key: formKey,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
 
-          Applogo_Widget(mq: mq),
-          mHeightSpacer(mHeight: mq.size.height*0.05),
+            Applogo_Widget(mq: mq),
+            mHeightSpacer(mHeight: mq.size.height*0.05),
 
-          FittedBox(
-            fit: BoxFit.scaleDown,
-              child: Text('Hello again, ',style: Theme.of(context).textTheme.displayLarge,)),
-          FittedBox(
-              fit : BoxFit.scaleDown,
-              child: Text('start managing your expense in one click',style:Theme.of(context).textTheme.displaySmall)),
-          mHeightSpacer(mHeight: mq.size.height*0.04),
-          TextField(
-            decoration: mInputDec(mhint: 'enter your email', mlable: 'E-mail',mPrefixIcon: Icons.email_outlined),
-          ),
-          mHeightSpacer(mHeight: mq.size.height*0.01),
-          TextField(
-            decoration: mInputDec(mhint: 'enter your email', mlable: 'Password',mPrefixIcon: Icons.password_outlined,mSuffixIcon: Icons.visibility),
-          ),
-          mHeightSpacer(mHeight: mq.size.height*0.04),
-          Rounded_Btn(title: 'Login', onPress: (){
-            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Home_Page(),));
-          }),
-          mHeightSpacer(mHeight: mq.size.height*0.03),
-          Container(
-            width: double.infinity,
-            color: Colors.grey,
-            height: 1,
-          ),
-          mHeightSpacer(mHeight: mq.size.height*0.03),
-          Btm_OnBoard_Stack(onPress: (){
-            Navigator.push(context, MaterialPageRoute(builder: (context) => SignUp_Page(),));
-          },title: 'Don\'t have account, ', subtile: 'create one', ),
-
-          Switch(value: check, onChanged: (value) {
-            check = value;
-
-            Provider.of<Switch_Theme_Provider>(context,listen: false).changeTheme(value);
-            setState(() {
-
-            });
-
-          },)
-        ],
-
+            FittedBox(
+              fit: BoxFit.scaleDown,
+                child: Text('Hello again, ',style: Theme.of(context).textTheme.displayLarge,)),
+            FittedBox(
+                fit : BoxFit.scaleDown,
+                child: Text('start managing your expense in one click',style:Theme.of(context).textTheme.displaySmall)),
+            mHeightSpacer(mHeight: mq.size.height*0.04),
+            TextFormField(
+              controller: emailController,
+              validator: (value) {
+                if(value!.isEmpty){
+                  return 'Please fill the blank';
+                }
+              },
+              decoration: mInputDec(mhint: 'enter your email', mlable: 'E-mail',mPrefixIcon: Icons.email_outlined),
+            ),
+            mHeightSpacer(mHeight: mq.size.height*0.01),
+            TextFormField(
+              controller: passController,
+              validator: (value) {
+                if(value!.isEmpty){
+                  return 'Please fill the blank';
+                }
+              },
+              decoration: mInputDec(mhint: 'enter your email', mlable: 'Password',mPrefixIcon: Icons.password_outlined,mSuffixIcon: Icons.visibility),
+            ),
+            mHeightSpacer(mHeight: mq.size.height*0.04),
+            Rounded_Btn(title: 'Login', onPress: () async {
+              if(formKey.currentState!.validate()){
+                print('login starts');
+                bool check = await  My_Db_Helper().LogIn(emailController.text.toString(),passController.text.toString());
+                if(check){
+                  print('logged in sucessfully');
+                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Home_Page(),));
+                }else{
+                  print('username password mismatch');
+                }
+              }
 
 
+
+
+
+            }),
+            mHeightSpacer(mHeight: mq.size.height*0.03),
+            Container(
+              width: double.infinity,
+              color: Colors.grey,
+              height: 1,
+            ),
+            mHeightSpacer(mHeight: mq.size.height*0.03),
+            Btm_OnBoard_Stack(onPress: (){
+              Navigator.push(context, MaterialPageRoute(builder: (context) => SignUp_Page(),));
+            },title: 'Don\'t have account, ', subtile: 'create one', ),
+
+
+          ],
+
+
+
+        ),
       ),
     );
   }
