@@ -3,11 +3,11 @@
 import 'package:expense_proj/app_widgets/app_logo_widget.dart';
 import 'package:expense_proj/app_widgets/bottom_onboard_stack_widget.dart';
 import 'package:expense_proj/app_widgets/rounded_btn.dart';
-import 'package:expense_proj/provider/switch_theme_provider.dart';
+
 import 'package:expense_proj/screens/user_onboard/signup_page.dart';
 import 'package:expense_proj/ui_helper.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+
 
 import '../../database/my_db_helper.dart';
 import '../home/home_page.dart';

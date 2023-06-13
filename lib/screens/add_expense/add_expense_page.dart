@@ -2,7 +2,7 @@ import 'package:expense_proj/app_widgets/rounded_btn.dart';
 import 'package:expense_proj/database/models/expense_model.dart';
 import 'package:expense_proj/screens/home/bloc/category/cat_bloc.dart';
 import 'package:expense_proj/screens/home/bloc/expense/expense_bloc.dart';
-import 'package:expense_proj/screens/home/home_page.dart';
+
 import 'package:expense_proj/ui_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -170,7 +170,7 @@ class _Add_Expense_PageState extends State<Add_Expense_Page> {
                         var prefs = await SharedPreferences.getInstance();
 
                         var newExpense = Expense_Model(
-                          user_id:  prefs.getInt('u_id'),
+                          user_id: prefs.getInt('u_id'),
                           expense_title: titleController.text.toString(),
                           expense_desc: descController.text.toString(),
                           expense_amount: amt,
@@ -181,7 +181,7 @@ class _Add_Expense_PageState extends State<Add_Expense_Page> {
                         );
                         BlocProvider.of<ExpenseBloc>(context).add(AddExpenseEvent(newExpense: newExpense));
                       }
-                      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Home_Page(),));
+                      Navigator.pop(context);
                     });
 
             }, )

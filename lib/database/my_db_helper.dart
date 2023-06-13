@@ -134,9 +134,9 @@ class My_Db_Helper {
   Future<List<Expense_Model>> getExpense() async {
     var mDb = await openDB();
     var sp = await SharedPreferences.getInstance();
-    var id = sp.getInt('u_id');
-    var ListExpense = await mDb
-        .query(TABLE_EXPENSE, where: '$USER_ID=?', whereArgs: ['$id}']);
+    var userid = sp.getInt('u_id');
+   // var userid = 0;
+    var ListExpense = await mDb.query(TABLE_EXPENSE, where: '$USER_ID = ?', whereArgs: ['$userid']);
     List<Expense_Model> ListExpenseModel = [];
     for (Map<String, dynamic> expense in ListExpense) {
       ListExpenseModel.add(Expense_Model.fromMap(expense));

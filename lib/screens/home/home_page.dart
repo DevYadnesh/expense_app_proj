@@ -16,6 +16,7 @@ class _Home_PageState extends State<Home_Page> {
   var selectedIndex =0;
   var isLight;
 
+
   var arrFrags = [
     Transcation_Page(),
     Satats_Graph_Page()
