@@ -27,9 +27,10 @@ class _Transcation_PageState extends State<Transcation_Page> {
 
 
 
-late List<Expense_Model> arrExpenseData;
-List<Map<String,dynamic>> arrDateWiseData = [];
+ List<Expense_Model> arrExpenseData = [];
+
 List<Category_Model> arrCat = [];
+  List<Map<String,dynamic>> arrDateWiseData = [];
 
 late DateTime date;
 late String TodayDate;
@@ -40,10 +41,7 @@ late String YestardayDate;
   void initState() {
     super.initState();
 
-    date = DateTime.now();
-    var yesterday = date.subtract(Duration(days: 1));
-    TodayDate ='${date.year}-${date.month.toString().length == 1 ? '0${date.month}' : '${date.month}'}-${date.day.toString().length == 1 ? '0${date.day}' :  '${date.day}'}';
-    YestardayDate ='${yesterday.year}-${yesterday.month.toString().length == 1 ? '0${yesterday.month}' : '${yesterday.month}'}-${yesterday.day.toString().length == 1 ? '0${yesterday.day}' :  '${yesterday.day}'}';
+
 
    BlocProvider.of<ExpenseBloc>(context).add(getExpenseEvent());
     BlocProvider.of<CatBloc>(context).add(GetCatEvent());
@@ -86,10 +84,13 @@ late String YestardayDate;
                   return CircularProgressIndicator();
                 }
                 if (state is ExpenseLoadedState) {
-                  arrExpenseData = state.listExpense.reversed.toList();
-                  print(arrExpenseData.length);
-                  if (arrExpenseData.isNotEmpty) {
-                    filterExpenseDateWise();
+
+
+                  arrDateWiseData = state.listExpense;
+                  getAllExpenses();
+                  print(arrDateWiseData.length);
+                  if (arrDateWiseData.isNotEmpty) {
+
                     return Expanded(
                         flex: 14,
                         child: Column(
@@ -136,56 +137,16 @@ late String YestardayDate;
     );
   }
 
-  void filterExpenseDateWise(){
+  void getAllExpenses(){
+    arrExpenseData.clear();
+    arrDateWiseData.forEach((eachDate) {
+      arrExpenseData.addAll(eachDate['Transcations'] as  List<Expense_Model>);
 
-    var uniqueDate = [];
-    arrDateWiseData.clear();
-
-    for(Expense_Model model in arrExpenseData){
-      var eachDateFormat = DateTime.parse(model.expense_date!);
-
-      var eachDate = '${eachDateFormat.year}-${eachDateFormat.month.toString().length == 1 ? '0${eachDateFormat.month}' : '${eachDateFormat.month}'}-${eachDateFormat.day.toString().length == 1 ? '0${eachDateFormat.day}' :  '${eachDateFormat.day}'}';
-
-      if(!uniqueDate.contains(eachDate)){
-        uniqueDate.add(eachDate);
-
-      }
-
-    }
-
-
-    for(String eachDate in uniqueDate){
-      List<Expense_Model> eachDateTransactions = arrExpenseData.where((element) => element.expense_date!.contains(eachDate)).toList();
-
-
-      if(eachDate == TodayDate){
-        eachDate = 'Today';
-      }else if (eachDate == YestardayDate){
-        eachDate = 'Yesterday';
-      }
-      print(TodayDate);
-      print(YestardayDate);
-
-      var eachDayamt = 0.0;
-
-      eachDateTransactions.forEach((transaction) {
-        if(transaction.expense_type == 1){
-          eachDayamt -= transaction.expense_amount!;
-        }else {
-          eachDayamt += transaction.expense_amount!;
-        }
-      });
-
-
-
-      Map<String,dynamic> eachDateMap = {};
-      eachDateMap['day'] = '$eachDate';
-      eachDateMap['amt'] = eachDayamt.isNegative ? '-$eachDayamt' : '+$eachDayamt';
-      eachDateMap['Transcations'] = eachDateTransactions;
-      arrDateWiseData.add(eachDateMap);
-    }
+    });
 
   }
+
+
 
   Widget getAllTransactionDateWise( Map<String , dynamic> dayWiseData){
     return Padding(
@@ -204,7 +165,7 @@ late String YestardayDate;
                   children: [
                     Padding(
                       padding: const EdgeInsets.only(left: 20),
-                      child: Text(dayWiseData['day'],style: mTextStyle12(mColor: Colors.grey),),
+                      child: Text(dayWiseData['year'],style: mTextStyle12(mColor: Colors.grey),),
                     ),
                     Padding(
                       padding:  EdgeInsets.only(right: 6),
@@ -311,6 +272,7 @@ late String YestardayDate;
 
   void CalculateTotalSpent (){
     TotalSpent =0.0;
+    print(arrExpenseData);
 
     arrExpenseData.forEach((expense) {
       if(expense.expense_type == 1){

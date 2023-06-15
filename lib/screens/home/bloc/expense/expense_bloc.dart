@@ -17,7 +17,7 @@ class ExpenseBloc extends Bloc<ExpenseEvent, ExpenseState> {
       emit(ExpenseLoadingState());
     var check = await repo.addExpense(event.newExpense);
     if(check){
-    var allExpenses =  await repo.getExpense();
+    var allExpenses =  await repo.getExpensesYearWise();
    await Future.delayed(Duration(seconds: 2),(){
 
    }).whenComplete(() =>  emit(ExpenseLoadedState(listExpense: allExpenses)));
@@ -29,7 +29,7 @@ class ExpenseBloc extends Bloc<ExpenseEvent, ExpenseState> {
 
     on<getExpenseEvent>((event, emit) async {
       emit(ExpenseLoadingState());
-      var allExpenses =  await repo.getExpense();
+      var allExpenses =  await repo.getExpensesYearWise();
       emit(ExpenseLoadedState(listExpense: allExpenses));
     });
   }
