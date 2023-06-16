@@ -9,5 +9,6 @@ class AddExpenseEvent extends ExpenseEvent{
 }
 
 class getExpenseEvent extends ExpenseEvent{}
-class getExpensesDayWise extends ExpenseEvent{}
-class getExpensesMonthWise extends ExpenseEvent{}
+class getDayWiseExpensesEvent extends ExpenseEvent{}
+class getMonthWiseExpensesEvent extends ExpenseEvent{}
+class getYearWiseExpensesEvent extends ExpenseEvent{}

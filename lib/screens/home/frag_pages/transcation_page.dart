@@ -43,7 +43,7 @@ late String YestardayDate;
 
 
 
-   BlocProvider.of<ExpenseBloc>(context).add(getExpenseEvent());
+   BlocProvider.of<ExpenseBloc>(context).add(getDayWiseExpensesEvent());
     BlocProvider.of<CatBloc>(context).add(GetCatEvent());
   }
 
@@ -54,6 +54,7 @@ late String YestardayDate;
     isLight = Theme.of(context).brightness == Brightness.light;
     return SafeArea(
       child: Scaffold(
+
         body:BlocListener<CatBloc,CatState>(
           listener: (ctx, state) {
             if(state is CatLoadedState){
@@ -165,7 +166,7 @@ late String YestardayDate;
                   children: [
                     Padding(
                       padding: const EdgeInsets.only(left: 20),
-                      child: Text(dayWiseData['year'],style: mTextStyle12(mColor: Colors.grey),),
+                      child: Text(dayWiseData['day'],style: mTextStyle12(mColor: Colors.grey),),
                     ),
                     Padding(
                       padding:  EdgeInsets.only(right: 6),
